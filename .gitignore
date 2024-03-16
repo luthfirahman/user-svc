@@ -13,9 +13,24 @@
 
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
+*.log
+.DS_STORE
+.DS_Store
 
-# Dependency directories (remove the comment below to include it)
-# vendor/
+# Dependency directories
+vendor/
 
 # Go workspace file
 go.work
+
+# Config file
+.env
+
+# IDE
+.vscode
+
+# Build
+build
+
+# Generated
+generated/
