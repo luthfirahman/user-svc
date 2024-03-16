@@ -65,7 +65,7 @@ func validateName(name string) string {
 	if name == "" {
 		return "name must not be empty"
 	} else if len(name) < 3 || len(name) > 60 {
-		return "name must be at minimum 10 characters and maximum 13 characters"
+		return "name must be at minimum 3 characters and maximum 60 characters"
 	}
 
 	return ""

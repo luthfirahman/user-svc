@@ -1,12 +1,12 @@
 package utils
 
 type Response struct {
-	Message     string `json:"message"`
-	Data        any    `json:"data,omitempty"`
-	Validations any    `json:"validations,omitempty"`
+	Message     any `json:"message,omitempty"`
+	Data        any `json:"data,omitempty"`
+	Validations any `json:"validations,omitempty"`
 }
 
-func BuildResponse(message string, data any, validations any) Response {
+func BuildResponse(message any, data any, validations any) Response {
 	res := Response{
 		Message:     message,
 		Data:        data,

@@ -1,0 +1,236 @@
+openapi: 3.0.0
+info:
+  title: User Service
+  description: Specification for user service APIs
+  version: 1.0.0
+servers:
+  - url: http://localhost/api/v1
+paths:
+  /register:
+    post:
+      summary: Register a new user
+      description: Allows a new user to register by providing their details.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: The name of the user.
+                  example: John Doe
+                phone_number:
+                  type: string
+                  description: The phone number of the user.
+                  example: +6281234567890
+                password:
+                  type: string
+                  description: The password of the user.
+                  example: Password123!
+      responses:
+        '200':
+          description: User successfully registered
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    format: int32
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message.
+                    example: Incorrect data input.
+                  validation:
+                    type: object
+                    description: Detail of failed validation rules.
+                    properties:
+                      name:
+                        type: string
+                        description: Error message.
+                        example: Name must not be empty.
+                      phone_number:
+                        type: string
+                        description: Error message.
+                        example: Phone number must not be empty.
+                      password:
+                        type: string
+                        description: Error message.
+                        example: Password must not be empty.
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message.
+                    example: Phone number already exists.
+  /login:
+    post:
+      summary: Authenticate user
+      description: Authenticates a user and returns a token.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                phone_number:
+                  type: string
+                  description: The phone number of the user.
+                  example: +6281234567890
+                password:
+                  type: string
+                  description: The password of the user.
+                  example: password123
+      responses:
+        '200':
+          description: Successful authentication
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    format: int32
+                  token:
+                    type: string
+                    description: Authentication token.
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message.
+                    example: invalid phone number or password.
+  /me:
+    get:
+      summary: Get user profile
+      description: Retrieves the profile information of the authenticated user.
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: The name of the user.
+                    example: John Doe
+                  phone_number:
+                    type: string
+                    description: The phone number of the user.
+                    example: +6281234567890
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message.
+                    example: Unauthorized.
+  /:
+    patch:
+      summary: Update user profile
+      description: Updates the profile information of the authenticated user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: The name of the user.
+                  example: John Doe
+                phone_number:
+                  type: string
+                  description: The phone number of the user.
+                  example: +6281234567890
+      responses:
+        '200':
+          description: Profile updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: The name of the user.
+                    example: John Doe
+                  phone_number:
+                    type: string
+                    description: The phone number of the user.
+                    example: +6281234567890
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message.
+                    example: Incorrect data input.
+                  validation:
+                    type: object
+                    description: Detail of failed validation rules.
+                    properties:
+                      name:
+                        type: string
+                        description: Error message.
+                        example: Name must not be empty.
+                      phone_number:
+                        type: string
+                        description: Error message.
+                        example: Phone number must not be empty.
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message.
+                    example: Unauthorized.
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message.
+                    example: Phone number not available.

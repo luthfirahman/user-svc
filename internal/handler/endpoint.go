@@ -48,13 +48,16 @@ func (h handler) Register(ctx *gin.Context) {
 	result, err := h.userService.Register(ctx.Request.Context(), r)
 	if err != nil {
 		res := utils.BuildResponse(err.Error(), nil, nil)
-		ctx.JSON(http.StatusBadRequest, res)
+		if err.Error() == "phone number already exists" {
+			ctx.JSON(http.StatusConflict, res)
+		} else {
+			ctx.JSON(http.StatusBadRequest, res)
+		}
 		return
 	}
 
 	data := dto.RegisterResponse{ID: result.Id}
-	res := utils.BuildResponse(constant.MESSAGE_SUCCESS_REGISTER_USER, data, nil)
-	ctx.JSON(http.StatusOK, res)
+	ctx.JSON(http.StatusOK, data)
 }
 
 func (h handler) Login(ctx *gin.Context) {
@@ -74,8 +77,7 @@ func (h handler) Login(ctx *gin.Context) {
 	}
 
 	data := dto.LoginResponse{ID: result.ID, Token: result.Token}
-	res := utils.BuildResponse(constant.MESSAGE_SUCCESS_LOGIN, data, nil)
-	ctx.JSON(http.StatusOK, res)
+	ctx.JSON(http.StatusOK, data)
 }
 
 func (h handler) GetMyProfile(ctx *gin.Context) {
@@ -95,8 +97,7 @@ func (h handler) GetMyProfile(ctx *gin.Context) {
 		PhoneNumber: result.PhoneNumber,
 	}
 
-	res := utils.BuildResponse(constant.MESSAGE_SUCCESS, data, nil)
-	ctx.JSON(http.StatusOK, res)
+	ctx.JSON(http.StatusOK, data)
 }
 
 func (h handler) UpdateMyProfile(ctx *gin.Context) {
@@ -135,6 +136,5 @@ func (h handler) UpdateMyProfile(ctx *gin.Context) {
 		PhoneNumber: result.PhoneNumber,
 	}
 
-	res := utils.BuildResponse(constant.MESSAGE_SUCCESS, data, nil)
-	ctx.JSON(http.StatusOK, res)
+	ctx.JSON(http.StatusOK, data)
 }

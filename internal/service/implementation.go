@@ -27,7 +27,7 @@ func (s *userService) Register(ctx context.Context, r *dto.RegisterRequest) (*re
 
 	user, isExist, _ := s.userRepository.FindByPhoneNumber(ctx, r.PhoneNumber)
 	if isExist {
-		return user, errors.New("user already exist")
+		return user, errors.New("phone number already exists")
 	}
 
 	hashPassword, _ := bcrypt.GenerateFromPassword([]byte(r.Password), bcrypt.DefaultCost)

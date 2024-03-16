@@ -9,7 +9,7 @@ import (
 )
 
 func Router(route *gin.Engine, handler handler.Handler, jwtService config.JWTService) {
-	routes := route.Group("/api/v1/user")
+	routes := route.Group("/api/v1")
 	{
 		routes.POST("/register", handler.Register)
 		routes.POST("/login", handler.Login)
