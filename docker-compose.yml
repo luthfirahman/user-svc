@@ -1,13 +1,4 @@
 services:
-  app:
-    build: .
-    ports:
-      - "8080:1323"
-    environment:
-      DATABASE_URL: postgres://postgres:postgres@db:5433/user-scv?sslmode=disable
-    depends_on:
-      db:
-        condition: service_healthy
   db:
     platform: linux/x86_64
     image: postgres:14.1-alpine
@@ -17,9 +8,9 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: user-svc
     ports:
-      - 5433:5433
+      - 5432:5432
     expose:
-      - 5433
+      - 5432
     volumes:
       - db:/var/lib/postgresql/data
       # Load database schema from ./database.sql
@@ -31,6 +22,15 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
+  app:
+    build: .
+    ports:
+      - "8080:1323"
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@db:5432/user-svc?sslmode=disable
+    depends_on:
+      db:
+        condition: service_healthy
 volumes:
   db:
     driver: local

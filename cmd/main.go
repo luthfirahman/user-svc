@@ -7,9 +7,9 @@ import (
 	"github.com/luthfirahman/user-svc/config"
 	"github.com/luthfirahman/user-svc/internal"
 	"github.com/luthfirahman/user-svc/internal/handler"
+	"github.com/luthfirahman/user-svc/internal/middleware"
 	"github.com/luthfirahman/user-svc/internal/repository"
 	"github.com/luthfirahman/user-svc/internal/service"
-	"github.com/luthfirahman/user-svc/middleware"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
