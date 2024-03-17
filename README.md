@@ -1,24 +1,79 @@
-# user-svc
+# User Service
 
-## Prerequisite
-- Go Version ``>= go 1.21.5``
-- PostgreSQL Version ``>= version 16.0``
+This is a User Service app built with Go programming language, Docker for containerization, and PostgreSQL for data storage.
 
-## How To Run
+## Table of Contents
+
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+- [Usage](#usage)
+- [Endpoints](#endpoints)
+- [Environment Variables](#environment-variables)
+
+## Getting Started
+
+### Prerequisites
+
+Before running the User Service app, ensure you have the following installed:
+
+- [Docker](https://www.docker.com/get-started)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+- [Go](https://golang.org/doc/install) (if you want to run the application locally without Docker)
+
+### Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/luthfirahman/user-svc.git
 ```
-1. git clone https://github.com/luthfirahman/user-service.git
-2. cd user-service
-3. cp .env.example .env
-4. configure .env with your postgres
-DB_HOST = localhost
-DB_USER = postgres
-DB_PASS = 
-DB_NAME = 
-DB_PORT = 5432
-5. Open terminal, follow the steps below:
-- if you haven't downloaded postgres, you can download it first
-- Run -> psql -U postgres
-- Run -> Create database according to what you put in .env
-- Run -> Exit
-6. go run cmd/main.go
+
+2. Navigate to the project directory:
+
+```bash
+cd user-svc
 ```
+
+3. Set up environment variables (see Environment Variables).
+
+4. Build and run the Docker containers:
+
+```bash
+docker-compose up
+```
+
+## Usage
+
+Once the Docker containers are up and running, you can access the API at http://localhost:8080.
+
+If you want to run the application locally without Docker:
+
+1. Make sure PostgreSQL is running on your machine and accessible at localhost:5432.
+
+2. Set up the required environment variables (see [Environment Variables](#environment-variables)).
+
+3. Build and run the application:
+
+```bash
+go run cmd/main.go
+```
+
+## Endpoints
+
+The following endpoints are available:
+
+- POST /register: Register a new user.
+- POST /login: Authenticate user.
+- GET /me: Get user profile.
+- PATCH /: Update user profile.
+
+## Environment Variables
+
+Ensure these environment variables are set:
+
+- DB_HOST: PostgreSQL host address.
+- DB_PORT: PostgreSQL port (default is 5432).
+- DB_NAME: PostgreSQL database name.
+- DB_USER: PostgreSQL username.
+- DB_PASS: PostgreSQL password.
