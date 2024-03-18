@@ -10,6 +10,7 @@ import (
 	"github.com/luthfirahman/user-svc/internal/middleware"
 	"github.com/luthfirahman/user-svc/internal/repository"
 	"github.com/luthfirahman/user-svc/internal/service"
+	"github.com/luthfirahman/user-svc/internal/utils"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -27,11 +28,8 @@ func main() {
 	server := gin.Default()
 	server.Use(middleware.CORSMiddleware())
 	internal.Router(server, handler, jwt)
-
+	utils.LoadEnv()
 	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8080"
-	}
 
 	if err := server.Run(":" + port); err != nil {
 		log.Fatalf("error running server: %v", err)

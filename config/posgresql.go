@@ -2,38 +2,31 @@ package config
 
 import (
 	"fmt"
+	"log"
 	"os"
 
-	"github.com/luthfirahman/user-svc/internal/utils/constant"
-
-	"github.com/joho/godotenv"
+	"github.com/luthfirahman/user-svc/internal/utils"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
 func SetupDatabaseConnection() *gorm.DB {
-	if os.Getenv("APP_ENV") != constant.ENUM_RUN_PRODUCTION {
-		err := godotenv.Load(".env")
-		if err != nil {
-			panic(err)
-		}
-	}
 
-	dbUser := os.Getenv("DB_USER")
-	dbPass := os.Getenv("DB_PASS")
-	dbHost := os.Getenv("DB_HOST")
-	dbPort := os.Getenv("DB_PORT")
-	dbName := os.Getenv("DB_NAME")
-	dbTimezone := os.Getenv("DB_TIMEZONE")
+	utils.LoadEnv()
+	dbUser := os.Getenv("POSTGRES_USER")
+	dbPass := os.Getenv("POSTGRES_PASSWORD")
+	dbHost := os.Getenv("POSTGRES_HOST")
+	dbPort := os.Getenv("POSTGRES_PORT")
+	dbName := os.Getenv("POSTGRES_DB")
 
-	dsn := fmt.Sprintf("host=%v port=%v user=%v password=%v dbname=%v TimeZone=%v", dbHost, dbPort, dbUser, dbPass, dbName, dbTimezone)
+	dsn := fmt.Sprintf("host=%v port=%v user=%v password=%v dbname=%v TimeZone=Asia/Jakarta", dbHost, dbPort, dbUser, dbPass, dbName)
 
 	db, err := gorm.Open(postgres.New(postgres.Config{
 		DSN:                  dsn,
 		PreferSimpleProtocol: true,
 	}), &gorm.Config{})
 	if err != nil {
-		panic(err)
+		log.Fatalln(err.Error())
 	}
 
 	return db
