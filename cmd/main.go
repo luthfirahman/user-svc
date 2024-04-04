@@ -4,6 +4,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/gin-gonic/gin"
 	"github.com/luthfirahman/user-svc/config"
 	"github.com/luthfirahman/user-svc/internal"
 	"github.com/luthfirahman/user-svc/internal/handler"
@@ -11,8 +12,8 @@ import (
 	"github.com/luthfirahman/user-svc/internal/repository"
 	"github.com/luthfirahman/user-svc/internal/service"
 	"github.com/luthfirahman/user-svc/internal/utils"
-
-	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"gorm.io/gorm"
 )
 
@@ -26,6 +27,8 @@ func main() {
 	)
 
 	server := gin.Default()
+	server.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
 	server.Use(middleware.CORSMiddleware())
 	internal.Router(server, handler, jwt)
 	utils.LoadEnv()
